@@ -1,0 +1,131 @@
+\documentclass[a4paper,12pt]{article} %размер бумаги устанавливаем А4, шрифт 12пунктов
+\usepackage[utf8]{inputenc}%включаем свою кодировку: koi8-r или utf8 в UNIX, cp1251 в Windows
+\usepackage[english,russian]{babel}%используем русский и английский языки с переносами
+\usepackage{amsmath} %подключаем нужные пакеты расширений 
+\usepackage{color} %цвета
+
+\usepackage{geometry} % Меняем поля страницы
+\geometry{left=2cm}% левое поле
+\geometry{right=1.5cm}% правое поле
+\geometry{top=1.5cm}% верхнее поле
+\geometry{bottom=1.5cm}% нижнее поле
+
+\setcounter{tocdepth}{1}% chapter и section;
+
+\begin{document}
+
+\begin{flushright}
+Практика 1. Чистое лямбда-исчисление как язык программирования
+
+Мартынов Семён
+
+\hrulefill
+\end{flushright}
+
+\section{Задачи с практики}
+
+\begin{enumerate}
+{\item Попробуйте найти более «короткую» версию iszro}
+
+iszro $\equiv$ $\lambda$b t f. b ($\lambda$x. f) t
+
+{\item опробуйте найти другое определение succ}
+
+succ $\equiv$ $\lambda$n s z. n s (s z)
+
+{\item Попробуйте найти определение plus с использованием succ}
+
+plus $\equiv$ $\lambda$m n. m succ n
+
+{\item Можно ли mult2 записать короче?}
+
+mult $\equiv$ $\lambda$m n s. m (n s)
+
+\end{enumerate}
+
+\section{Домашнее задание}
+
+\begin{enumerate}
+{\item Выполните подстановку}
+
+\begin{enumerate}
+{\item $\lambda$ y z. x y w (z x) $\quad$ [x := $\lambda$ y. y w]}
+
+$\lambda$ y z. ($\lambda$ y. y w) y w (z ($\lambda$ y. y w)) $\equiv$ $\lambda$ y z. y w w (z ($\lambda$ y. y w))
+
+{\item $\lambda$ x y. x y ($\lambda$ x. x y) x $\quad$ [x := $\lambda$ z. z]}
+
+$\lambda$ x y. x y ($\lambda$ x. x y) x
+
+{\item x y ($\lambda$ x z. x y z) y $\quad$ [y := x z]}
+
+x (x z) ($\lambda$ x$^\prime$ z$^\prime$. x$^\prime$ (x z) z$^\prime$) (x z)
+
+\end{enumerate}
+
+{\item Уберите лишние скобки и при возможности выполните $\beta$-преобразование}
+
+\begin{enumerate}
+
+{\item (x ($\lambda$ x.((x y) x)) y)}
+
+{\color{red}(}x ($\lambda$ x.((x y) x)) y{\color{red})} $\equiv$ \\
+x ($\lambda$ x.({\color{red}(}x y{\color{red})} x)) y $\equiv$ \\
+x ($\lambda$ x.{\color{red}(}x y x{\color{red})}) y $\equiv$ \\
+x ($\lambda$ x. x y x) y
+
+{\item (($\lambda$ p.($\lambda$ q.((q (p r)) s))) ((q (p r)) s))}
+
+{\color{red}(}($\lambda$ p.($\lambda$ q.((q (p r)) s))) ((q (p r)) s){\color{red})} $\equiv$ \\
+($\lambda$ p.($\lambda$ q.({\color{red}(}q (p r){\color{red})} s))) ((q (p r)) s) $\equiv$ \\
+($\lambda$ p.($\lambda$ q.{\color{red}(}q (p r) s{\color{red})})) ((q (p r)) s) $\equiv$ \\
+($\lambda$ p.{\color{red}(}$\lambda$ q. q (p r) s{\color{red})}) ((q (p r)) s) $\equiv$ \\
+($\lambda$ p q. q (p r) s) ({\color{red}(}q (p r){\color{red})} s) $\equiv$ \\
+($\lambda$ p q. q (p r) s) (q (p r) s) $\equiv$ \\
+$\lambda$ q$^\prime$. q$^\prime$ ({\color{red}(}q (p r) s{\color{red})} r) s = \\
+$\lambda$ q$^\prime$. q$^\prime$ (q (p r) s r) s.
+
+\end{enumerate}
+
+{\item Покажите, что для любых M и N выполняется $\lambda$ x. M N = \textbf{S} ($\lambda$ x. M) ($\lambda$ x. N)}
+
+\textbf{S} ($\lambda$ x. M) ($\lambda$ x. N) $\equiv$ $\lambda$x$^\prime$. ($\lambda$ x. M) x$^\prime$ (($\lambda$ x. N) x$^\prime$) $\equiv$ $\lambda$ x. M N
+
+\newpage
+
+{\item Покажите, что}
+
+\begin{enumerate}
+
+{\item \textbf{SKK = I}}
+
+\textbf{SKK} $\equiv$ \\
+$\lambda$x. \textbf{K} x (\textbf{K} x) $\equiv$ \\
+$\lambda$x. x $\equiv$ \\
+\textbf{I}
+
+
+{\item \textbf{B = S (K S) K}}
+
+\textbf{S (K S) K} = \\
+$\lambda$x. (\textbf{K S}) x (\textbf{K} x) = \\
+$\lambda$x. \textbf{K S} x (\textbf{K} x) = \\
+$\lambda$x. \textbf{S} (\textbf{K} x) = \\
+$\lambda$x$^\prime$. \textbf{S} (\textbf{K} x$^\prime$) = \\
+$\lambda$x$^\prime$. ($\lambda$f g x. f x (g x)) (\textbf{K} x$^\prime$) = \\
+$\lambda$x$^\prime$. ($\lambda$g x. (\textbf{K} x$^\prime$) x (g x))  = \\
+$\lambda$x$^\prime$. ($\lambda$g x. \textbf{K} x$^\prime$ x (g x))  = \\
+$\lambda$x$^\prime$. ($\lambda$g x. x$^\prime$ (g x))  = \\
+$\lambda$x$^\prime$ g x. x$^\prime$ (g x) = \\
+$\lambda$f g x. f (g x) = \\
+\textbf{B}.
+
+\end{enumerate}
+
+{\item Реализуйте функцию возведения в степень для чисел Чёрча.}
+
+pow $\equiv$ $\lambda$m n. n (mult m) 1
+
+\end{enumerate}
+
+\end{document}
