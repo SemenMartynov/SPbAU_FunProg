@@ -1,7 +1,8 @@
 \documentclass[a4paper,12pt]{article} %размер бумаги устанавливаем А4, шрифт 12пунктов
 \usepackage[utf8]{inputenc}%включаем свою кодировку: koi8-r или utf8 в UNIX, cp1251 в Windows
 \usepackage[english,russian]{babel}%используем русский и английский языки с переносами
-\usepackage{amsmath} %подключаем нужные пакеты расширений 
+\usepackage{amsmath} %подключаем нужные пакеты расширений
+\usepackage{changepage} %пакет для отступов
 \usepackage{color} %цвета
 
 \usepackage{geometry} % Меняем поля страницы
@@ -15,6 +16,8 @@
 \begin{document}
 
 \begin{flushright}
+{\color{red} 17 фев 2014}
+
 Практика 1. Чистое лямбда-исчисление как язык программирования
 
 Мартынов Семён
@@ -22,24 +25,74 @@
 \hrulefill
 \end{flushright}
 
-\section{Задачи с практики}
+\section{Задачи, пропущенные в ходе практики}
 
 \begin{enumerate}
-{\item Попробуйте найти более «короткую» версию iszro}
+{\item Проверьте, что ожидаемые свойства iszro выполняются.}
 
-iszro $\equiv$ $\lambda$b t f. b ($\lambda$x. f) t
+iszro $\equiv$ $\lambda$ n. n ($\lambda$ x. fls) tru
 
-{\item опробуйте найти другое определение succ}
+  \begin{adjustwidth}{1em}{0pt}
+  Для проверки рассмотрим два случая.
+  
+  iszro 0 $\equiv$ \\
+  ($\lambda$ n. n ($\lambda$ x. fls) tru) $\lambda$ s z. z $\equiv$ \\
+  ($\lambda$ s z. z) ($\lambda$ x. fls) tru $\equiv$ \\
+  ($\lambda$ z.  z)  tru $\equiv$ \\
+  tru
+  
+  iszro 1 $\equiv$ \\
+  ($\lambda$ n. n ($\lambda$ x. fls) tru) $\lambda$ s z. s z $\equiv$ \\
+  ($\lambda$ s z. s z) ($\lambda$ x. fls) tru) $\equiv$ \\
+  ($\lambda$ z. ($\lambda$ x. fls) z) tru $\equiv$ \\
+  ($\lambda$ x. fls) tru $\equiv$ \\
+  fls.
+  \end{adjustwidth}
 
-succ $\equiv$ $\lambda$n s z. n s (s z)
+\end{enumerate}
 
-{\item Попробуйте найти определение plus с использованием succ}
+\section{Задачи, не решённые во время практики}
 
-plus $\equiv$ $\lambda$m n. m succ n
+\begin{enumerate}
+
+{\item Попробуйте найти определение plus с использованием succ.}
+
+	\begin{adjustwidth}{1em}{0pt}
+	plus $\equiv$ $\lambda$m n. m succ n
+    \end{adjustwidth}
+
+{\item Проверьте, что ожидаемые свойства умножения выполняются.}
+
+mult1 $\equiv$ $\lambda$m n. m (plus n) 0
+
+mult2 $\equiv$ $\lambda$m n s z. m (n s) z
+    
+	\begin{adjustwidth}{1em}{0pt}
+	mult1 2 3 $\equiv$ \\
+    ($\lambda$m n. m (plus n) 0) 2 3 $\equiv$ \\
+    2 (plus 3) 0 $\equiv$ \\
+    $\lambda$s z. s( s z) (plus 3) 0 $\equiv$ \\
+    (plus 3) ((plus 3) 0) $\equiv$ \\
+    6
+    
+    mult2 2 3 $\equiv$ \\
+    ($\lambda$m n s z. m (n s) z) 2 3 $\equiv$ \\
+    $\lambda$s z. 2 (3 s) z $\equiv$ \\
+    $\lambda$s z. 2 (($\lambda$s z. s (s (s z))) s) z $\equiv$ \\
+    $\lambda$s z. 2 ($\lambda$z. s (s (s z))) z $\equiv$ \\
+    $\lambda$s z. ($\lambda$s z. s (s z)) ($\lambda$z. s (s (s z))) z $\equiv$ \\
+    $\lambda$s z. ($\lambda$z. ($\lambda$z. s (s (s z))) (($\lambda$z. s (s (s z))) z)) z $\equiv$ \\
+    $\lambda$s z. ($\lambda$z. ($\lambda$z. s (s (s z))) (s (s (s z)))) z $\equiv$ \\
+    $\lambda$s z. ($\lambda$z. (s (s (s (s (s (s z))))))) z $\equiv$ \\
+    $\lambda$s z. s (s (s (s (s (s z))))) $\equiv$ \\
+    6
+    \end{adjustwidth}
 
 {\item Можно ли mult2 записать короче?}
 
-mult $\equiv$ $\lambda$m n s. m (n s)
+	\begin{adjustwidth}{1em}{0pt}
+	mult2 $\equiv$ $\lambda$m n s. m (n s)
+    \end{adjustwidth}
 
 \end{enumerate}
 
@@ -89,9 +142,11 @@ $\lambda$ q$^\prime$. q$^\prime$ (q (p r) s r) s.
 
 {\item Покажите, что для любых M и N выполняется $\lambda$ x. M N = \textbf{S} ($\lambda$ x. M) ($\lambda$ x. N)}
 
-\textbf{S} ($\lambda$ x. M) ($\lambda$ x. N) $\equiv$ $\lambda$x$^\prime$. ($\lambda$ x. M) x$^\prime$ (($\lambda$ x. N) x$^\prime$) $\equiv$ $\lambda$ x. M N
+    \begin{adjustwidth}{1em}{0pt}
+    \textbf{S} ($\lambda$ x. M) ($\lambda$ x. N) $\equiv$ $\lambda$x$^\prime$. ($\lambda$ x. M) x$^\prime$ (($\lambda$ x. N) x$^\prime$) $\equiv$ $\lambda$ x. M N
+    \end{adjustwidth}
 
-\newpage
+%\newpage
 
 {\item Покажите, что}
 
@@ -99,32 +154,38 @@ $\lambda$ q$^\prime$. q$^\prime$ (q (p r) s r) s.
 
 {\item \textbf{SKK = I}}
 
-\textbf{SKK} $\equiv$ \\
-$\lambda$x. \textbf{K} x (\textbf{K} x) $\equiv$ \\
-$\lambda$x. x $\equiv$ \\
-\textbf{I}
+    \textbf{SKK} $\equiv$ \\
+    $\lambda$x. \textbf{K} x (\textbf{K} x) $\equiv$ \\
+    $\lambda$x. x $\equiv$ \\
+    \textbf{I}
 
 
 {\item \textbf{B = S (K S) K}}
 
-\textbf{S (K S) K} = \\
-$\lambda$x. (\textbf{K S}) x (\textbf{K} x) = \\
-$\lambda$x. \textbf{K S} x (\textbf{K} x) = \\
-$\lambda$x. \textbf{S} (\textbf{K} x) = \\
-$\lambda$x$^\prime$. \textbf{S} (\textbf{K} x$^\prime$) = \\
-$\lambda$x$^\prime$. ($\lambda$f g x. f x (g x)) (\textbf{K} x$^\prime$) = \\
-$\lambda$x$^\prime$. ($\lambda$g x. (\textbf{K} x$^\prime$) x (g x))  = \\
-$\lambda$x$^\prime$. ($\lambda$g x. \textbf{K} x$^\prime$ x (g x))  = \\
-$\lambda$x$^\prime$. ($\lambda$g x. x$^\prime$ (g x))  = \\
-$\lambda$x$^\prime$ g x. x$^\prime$ (g x) = \\
-$\lambda$f g x. f (g x) = \\
-\textbf{B}.
+    \textbf{S (K S) K} = \\
+    $\lambda$x. (\textbf{K S}) x (\textbf{K} x) = \\
+    $\lambda$x. \textbf{K S} x (\textbf{K} x) = \\
+    $\lambda$x. \textbf{S} (\textbf{K} x) = \\
+    $\lambda$x$^\prime$. \textbf{S} (\textbf{K} x$^\prime$) = \\
+    $\lambda$x$^\prime$. ($\lambda$f g x. f x (g x)) (\textbf{K} x$^\prime$) = \\
+    $\lambda$x$^\prime$. ($\lambda$g x. (\textbf{K} x$^\prime$) x (g x))  = \\
+    $\lambda$x$^\prime$. ($\lambda$g x. \textbf{K} x$^\prime$ x (g x))  = \\
+    $\lambda$x$^\prime$. ($\lambda$g x. x$^\prime$ (g x))  = \\
+    $\lambda$x$^\prime$ g x. x$^\prime$ (g x) = \\
+    $\lambda$f g x. f (g x) = \\
+	\textbf{B}.
 
 \end{enumerate}
 
 {\item Реализуйте функцию возведения в степень для чисел Чёрча.}
 
-pow $\equiv$ $\lambda$m n. n (mult m) 1
+    \begin{adjustwidth}{1em}{0pt}
+    pow $\equiv$ $\lambda$m n. n (mult m) 1
+    
+    либо
+    
+    pow $\equiv$ $\lambda$m n . n m
+    \end{adjustwidth}
 
 \end{enumerate}
 
