@@ -16,7 +16,7 @@
 \begin{document}
 
 \begin{flushright}
-{\color{red} 17 фев 2014}
+{\color{red} 17 фев 2014 (с доп. от 22 фев 2014)}
 
 Практика 1. Чистое лямбда-исчисление как язык программирования
 
@@ -38,7 +38,7 @@ iszro $\equiv$ $\lambda$ n. n ($\lambda$ x. fls) tru
   iszro 0 $\equiv$ \\
   ($\lambda$ n. n ($\lambda$ x. fls) tru) $\lambda$ s z. z $\equiv$ \\
   ($\lambda$ s z. z) ($\lambda$ x. fls) tru $\equiv$ \\
-  ($\lambda$ z.  z)  tru $\equiv$ \\
+  ($\lambda$ z. z) tru $\equiv$ \\
   tru
   
   iszro 1 $\equiv$ \\
@@ -57,8 +57,8 @@ iszro $\equiv$ $\lambda$ n. n ($\lambda$ x. fls) tru
 
 {\item Попробуйте найти определение plus с использованием succ.}
 
-	\begin{adjustwidth}{1em}{0pt}
-	plus $\equiv$ $\lambda$m n. m succ n
+\begin{adjustwidth}{1em}{0pt}
+plus $\equiv$ $\lambda$m n. m succ n
     \end{adjustwidth}
 
 {\item Проверьте, что ожидаемые свойства умножения выполняются.}
@@ -67,8 +67,8 @@ mult1 $\equiv$ $\lambda$m n. m (plus n) 0
 
 mult2 $\equiv$ $\lambda$m n s z. m (n s) z
     
-	\begin{adjustwidth}{1em}{0pt}
-	mult1 2 3 $\equiv$ \\
+\begin{adjustwidth}{1em}{0pt}
+mult1 2 3 $\equiv$ \\
     ($\lambda$m n. m (plus n) 0) 2 3 $\equiv$ \\
     2 (plus 3) 0 $\equiv$ \\
     $\lambda$s z. s( s z) (plus 3) 0 $\equiv$ \\
@@ -90,8 +90,8 @@ mult2 $\equiv$ $\lambda$m n s z. m (n s) z
 
 {\item Можно ли mult2 записать короче?}
 
-	\begin{adjustwidth}{1em}{0pt}
-	mult2 $\equiv$ $\lambda$m n s. m (n s)
+\begin{adjustwidth}{1em}{0pt}
+mult2 $\equiv$ $\lambda$m n s. m (n s)
     \end{adjustwidth}
 
 \end{enumerate}
@@ -143,7 +143,12 @@ $\lambda$ q$^\prime$. q$^\prime$ (q (p r) s r) s.
 {\item Покажите, что для любых M и N выполняется $\lambda$ x. M N = \textbf{S} ($\lambda$ x. M) ($\lambda$ x. N)}
 
     \begin{adjustwidth}{1em}{0pt}
-    \textbf{S} ($\lambda$ x. M) ($\lambda$ x. N) $\equiv$ $\lambda$x$^\prime$. ($\lambda$ x. M) x$^\prime$ (($\lambda$ x. N) x$^\prime$) $\equiv$ $\lambda$ x. M N
+    \textbf{S} ($\lambda$ x. M) ($\lambda$ x. N) $\equiv$ \\
+    ($\lambda$ f g x$^\prime$ . f x$^\prime$ ( g x$^\prime$ ) ) ($\lambda$ x. M) ($\lambda$ x. N) $\equiv$ \\
+    $\lambda$x$^\prime$. ($\lambda$ x. M) x$^\prime$ (($\lambda$ x. N) x$^\prime$) $\equiv$ \\
+    $\lambda$x$^\prime$. ($\lambda$ x. M) x$^\prime$ (N) $\equiv$ \\
+    $\lambda$ x$^\prime$. M N $\equiv$ \\
+    $\lambda$ x. M N
     \end{adjustwidth}
 
 %\newpage
@@ -168,12 +173,12 @@ $\lambda$ q$^\prime$. q$^\prime$ (q (p r) s r) s.
     $\lambda$x. \textbf{S} (\textbf{K} x) = \\
     $\lambda$x$^\prime$. \textbf{S} (\textbf{K} x$^\prime$) = \\
     $\lambda$x$^\prime$. ($\lambda$f g x. f x (g x)) (\textbf{K} x$^\prime$) = \\
-    $\lambda$x$^\prime$. ($\lambda$g x. (\textbf{K} x$^\prime$) x (g x))  = \\
-    $\lambda$x$^\prime$. ($\lambda$g x. \textbf{K} x$^\prime$ x (g x))  = \\
-    $\lambda$x$^\prime$. ($\lambda$g x. x$^\prime$ (g x))  = \\
+    $\lambda$x$^\prime$. ($\lambda$g x. (\textbf{K} x$^\prime$) x (g x)) = \\
+    $\lambda$x$^\prime$. ($\lambda$g x. \textbf{K} x$^\prime$ x (g x)) = \\
+    $\lambda$x$^\prime$. ($\lambda$g x. x$^\prime$ (g x)) = \\
     $\lambda$x$^\prime$ g x. x$^\prime$ (g x) = \\
     $\lambda$f g x. f (g x) = \\
-	\textbf{B}.
+\textbf{B}.
 
 \end{enumerate}
 
