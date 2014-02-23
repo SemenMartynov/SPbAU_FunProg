@@ -1,23 +1,25 @@
 \documentclass[a4paper,12pt]{article} %размер бумаги устанавливаем А4, шрифт 12пунктов
-
+\usepackage[T1,T2A]{fontenc}
 \usepackage[utf8]{inputenc}%включаем свою кодировку: koi8-r или utf8 в UNIX, cp1251 в Windows
 \usepackage[english,russian]{babel}%используем русский и английский языки с переносами
-\usepackage{amsmath} %подключаем нужные пакеты расширений 
+\usepackage{amsmath} %подключаем нужные пакеты расширений
+\usepackage{changepage} %пакет для отступов
 \usepackage{color} %цвета
-\usepackage{bm} % шрифты для красивых буковок =)
 
 \usepackage{geometry} % Меняем поля страницы
-\geometry{left=2cm} % левое поле
-\geometry{right=1.5cm} % правое поле
-\geometry{top=1.5cm} % верхнее поле
-\geometry{bottom=1.5cm} % нижнее поле
+\geometry{left=2cm}% левое поле
+\geometry{right=1.5cm}% правое поле
+\geometry{top=1.5cm}% верхнее поле
+\geometry{bottom=1.5cm}% нижнее поле
 
 \setcounter{tocdepth}{1}% chapter и section;
 
 \begin{document}
 
 \begin{flushright}
-Практика 2. Рекурсия и редукция.
+{\color{red} 24 фев 2014}
+
+Практика 2. Рекурсия и редукция
 
 Мартынов Семён
 
@@ -28,128 +30,145 @@
 
 \begin{enumerate}
 
-{\item Приведите пример замкнутого чистого $\lambda$-терма находящегося
-	\begin{itemize}% начало помеченного списка
-		{\item в слабой головной нормальной форме, но не в головной нормальной форме;}
-		{\item в головной нормальной форме, но не в нормальной форме.}
-	\end{itemize}% конец помеченного списка
+{\item Приведите пример замкнутого чистого $\lambda$-терма находящегося}
+\begin{itemize}
+{\item в слабой головной нормальной форме, но не в головной нормальной форме;}
+{\color{blue}
+	\begin{adjustwidth}{1em}{0pt}
+	%%%%%%%%%%%%%%%%%%% РЕШЕНИЕ %%%%%%%%%%%%%%%%%%%
+	\end{adjustwidth}
+}
+{\item в головной нормальной форме, но не в нормальной форме.}
+{\color{blue}
+	\begin{adjustwidth}{1em}{0pt}
+	%%%%%%%%%%%%%%%%%%% РЕШЕНИЕ %%%%%%%%%%%%%%%%%%%
+	\end{adjustwidth}
+}
+\end{itemize}
+
+% -----------------------------------------------------------------------------
+
+{\item Напишите функции: minus, вычитающую числа Чёрча, equals, сравнивающую два числа Чёрча на предмет равенства, а также всевозможные неравенства, строгие и нестрогие, lt, gt, le, ge.}
+{\color{blue}
+	\begin{adjustwidth}{1em}{0pt}
+	%%%%%%%%%%%%%%%%%%% РЕШЕНИЕ %%%%%%%%%%%%%%%%%%%
+	\end{adjustwidth}
+}
+  
+% -----------------------------------------------------------------------------
+
+{\item Постройте функции:}
+\begin{itemize}
+{\item sum суммирующую элементы списка, например
+   	\begin{center}
+	$\mathrm{sum \ [5,3,2] = 10}$
+\end{center}
 }
 
-Уточнить.
+{\color{blue}
+	\begin{adjustwidth}{1em}{0pt}
+    % Временно решение
+	sum = $\lambda$ m.iif(empty m) m plus (head m)(sum(tail m))
+	\end{adjustwidth}
+}
 
 
-
-
-
-% -----------------------------------------------------------------------------
-{\item Постройте функцию tail, возвращающую хвост списка, например}
-
-zp $\equiv$ pair 0 0 \\
-sp $\equiv$ $\lambda$ xp.pair(snd p)(cons x (snd p))
-
-Будем двигаться по списку, складывая его во второй элемент, а в первом будет сам хвост. Останется только забрать этот первый элемент.
-
-tail = $\lambda$ m.fst (m sp zp)
-
-% -----------------------------------------------------------------------------
-{\item Постройте функцию sum, суммирующую элементы списка, например
+{\item length вычисляющую длину списка, например
 	\begin{center}
-		$\mathrm{sum \ [5,3,2] = 10}$
+	$\mathrm{length \ [5,3,2] = 3}$
+\end{center}
+}
+
+{\color{blue}
+	\begin{adjustwidth}{1em}{0pt}
+	%%%%%%%%%%%%%%%%%%% РЕШЕНИЕ %%%%%%%%%%%%%%%%%%%
+	\end{adjustwidth}
+}
+
+\end{itemize}
+
+% -----------------------------------------------------------------------------
+
+{\item Постройте функцию tail, возвращающую хвост списка, например
+	\begin{center}
+		$\mathrm{tail \ [5,3,2] = [3,2]}$
 	\end{center}
 }
 
-sum = $\lambda$ m.iif(empty m) m plus (head m)(sum(tail m))
+{\color{blue}
+	\begin{adjustwidth}{1em}{0pt}
+	zp $\equiv$ pair nil nil \\
+	sp $\equiv$ $\lambda$ xp.pair(snd p)(cons x (snd p))
 
+	Будем двигаться по списку, складывая его во второй элемент, а в первом будет сам хвост. Останется только забрать этот первый элемент.
 
-% -----------------------------------------------------------------------------
-{\item Используя $\bm{\mathrm{Y}}$-комбинатор, сконструируйте}
-	\begin{itemize}% начало помеченного списка
-		{\item «пожиратель», то есть такой терм $\mathrm{F}$, который для любого $\mathrm{M}$ обеспечивает $\mathrm{F \ M = F}$.}
-
-			FM = F \\
-			F = $\lambda$ z.F \\
-			F = ($\lambda$ xz.x)F \\
-			F = $\bm{\mathrm{Y}}$ ($\lambda$ xz.x)
-
-		{\item терм $\mathrm{F}$ таким образом, чтобы для любого $\mathrm{M}$ выполнялось $\mathrm{F \ M = M \ F}$.}
-
-			FM = MF \\
-			F = $\lambda$ z.z F \\
-			F = ($\lambda$ xz.zx) F \\
-			F = $\bm{\mathrm{Y}}$ ($\lambda$ xz.zx)
-
-		{\item терм $\mathrm{F}$ таким образом, чтобы для любых термов $\mathrm{M}$ и $\mathrm{N}$ выполнялось $\mathrm{F \ M \ N = N \ F \ (N \ M \ F)}$.}
-
-			FMN = NF(NMF) \\
-			FM = $\lambda$ z.zF(zMF) \\
-			F = $\lambda$ xz.zF(zxF) \\
-			F = ($\lambda$ yxz.zy(zxy)) F \\
-			F = $\bm{\mathrm{Y}}$ ($\lambda$ yxz.zy(zxy))
-
-	\end{itemize}% конец помеченного списка
+	tail = $\lambda$ m.fst (m sp zp)
+	\end{adjustwidth}
+}
 
 % -----------------------------------------------------------------------------
+
+{\item Используя $\mathrm{Y}$-комбинатор, сконструируйте}
+\begin{itemize}
+{\item «пожиратель», то есть такой терм $\mathrm{F}$, который для любого $\mathrm{M}$ обеспечивает $\mathrm{F \ M = F}$.}
+
+{\color{blue}
+	\begin{adjustwidth}{1em}{0pt}
+	FM = F \\
+	F = $\lambda$ z.F \\
+	F = ($\lambda$ xz.x)F \\
+	F = $\mathrm{Y}$ ($\lambda$ xz.x)
+	\end{adjustwidth}
+}    
+
+{\item терм $\mathrm{F}$ таким образом, чтобы для любого $\mathrm{M}$ выполнялось $\mathrm{F \ M = M \ F}$.}
+
+{\color{blue}
+	\begin{adjustwidth}{1em}{0pt}
+	FM = MF \\
+	F = $\lambda$ z.z F \\
+	F = ($\lambda$ xz.zx) F \\
+	F = $\mathrm{Y}$ ($\lambda$ xz.zx)
+	\end{adjustwidth}
+}
+
+{\item терм $\mathrm{F}$ таким образом, чтобы для любых термов $\mathrm{M}$ и $\mathrm{N}$ выполнялось $\mathrm{F \ M \ N = N \ F \ (N \ M \ F)}$.}
+
+
+{\color{blue}
+	\begin{adjustwidth}{1em}{0pt}
+	FMN = NF(NMF) \\
+	FM = $\lambda$ z.zF(zMF) \\
+	F = $\lambda$ xz.zF(zxF) \\
+	F = ($\lambda$ yxz.zy(zxy)) F \\
+	F = $\mathrm{Y}$ ($\lambda$ yxz.zy(zxy))
+	\end{adjustwidth}
+}
+
+\end{itemize}
+
+% -----------------------------------------------------------------------------
+
 {\item Пусть имеются взаимно-рекурсивное определение функций $\mathrm{f}$ и $\mathrm{g}$:
 	\begin{center}
 		$\mathrm{f = F \ f \ g}$ \\
 		$\mathrm{g = G \ f \ g}$
 	\end{center}
-Используя Y-комбинатор, найдите нерекурсивные определения для $\mathrm{f}$ и $\mathrm{g}$.
+	Используя Y-комбинатор, найдите нерекурсивные определения для $\mathrm{f}$ и $\mathrm{g}$.
 }
 
-	Введём P = pair f g, тогда f = fst P и g = snd P\\
-	Выполним подстановку\\
+{\color{blue}
+	\begin{adjustwidth}{1em}{0pt}
+	Введём P = pair f g, тогда f = fst P и g = snd P.
+    
+	Выполним подстановку
+    
 	P = pair (F(fst P)(snd P))(G(fst P)(snd P)) \\
 	P = (pair (F(fst P)(snd P))(G(fst P)(snd P)))P = AP \\
 	P = YA $\Rightarrow$ f = fst YA, g = snd YA
+	\end{adjustwidth}
+}
 
 \end{enumerate}
 
 \end{document}
-%
-% Логические значения
-%
-% TRUE  = λx y. x
-% FALSE = λx y. y
-% IIF = λe x y. e x y
-% AND = λx y. x y FALSE 
-% 
-% Пары
-% 
-% PAIR = λx y f. f x y
-% FST p = p TRUE
-% SND p = p FALSE
-% 
-% Числа
-% 
-% 0 = λf x. x
-% SUC = λn f x. n f (f x)
-% ISZERO = λn. (λx. FALSE) TRUE
-% PLUS = λ m n f x. m f (n f x)
-% MULT = λ m n f x. m (n f) x
-% ZZ = PAIR 0 0
-% SS = λp. PAIR (SND p) (PLUS (SUC 0) (SND p))
-% PRD = λm. FST (m SS ZZ)
-% SUBSTR = λm n. n PRD m
-% GE = λm n. ISZERO (m PRD n)
-% LE = λm n. ISZERO (n PRD m)
-% EQ = λm n. AND (GE m n) (LE m n)
-% MAX = λm n. IIF (GE m n) m n
-% 
-% Списки
-% 
-% NIL = λc n. n
-% CONS = λx l c n. c x (l c n)
-% LENGTH = λl. l(λx. SUC) 0
-% HEAD = λl. l(λx y. x) NIL
-% TAIL = λl. SND (l(λx p. PAIR (CONS x (FST p)) (FST p)) (PAIR NIL NIL))
-% 
-% Рекурсия
-% 
-% FIX = λf. (λx. f (λy. x x y)) (λx. f (λy. x x y))
-% 
-% Ну и, наконец,
-% 
-% F = λl. F1 l (LENGTH l) 0
-% F1 = FIX F2
-% F2 = λf l n i. IIF (EQ n i) 0 (MAX (PLUS( MULT (HEAD l) n) (SUC i)) (f (TAIL l) n (SUC i)))
